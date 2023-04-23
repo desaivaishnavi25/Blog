@@ -1,0 +1,80 @@
+.settings{
+    display: flex;
+    /*background-image: url("https://images.unsplash.com/photo-1475070929565-c985b496cb9f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8ZGFyayUyMG5hdHVyZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60");
+    background-size: contain;*/
+}
+.settingsWrapper{
+    flex:9;
+    padding: 20px;
+    margin-top:20px;
+    margin-left:20px;
+    border:1px solid gray;
+    background-image: linear-gradient(gray, white);
+    background-repeat: no-repeat;
+    background-size: cover;
+    
+}
+.settingsTitle{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.settingsUpdateTitle{
+    font-size:30px;
+    margin-bottom: 20px;
+    color:black;
+}
+
+.settingsForm{
+    display: flex;
+    flex-direction: column;
+    
+}
+.settingsPP{
+    display:flex;
+    align-items:center;
+    margin:10px 0; 
+}
+
+.settingsPP > img{
+    width:70px;
+    height:70px;
+    border-radius:20px;
+    object-fit: cover;
+}
+
+
+.settingsForm >label{
+    font-size:20px;
+    margin-top:20px;
+    color:black;
+}
+.settingsForm>input{
+    color:darkslategray;
+    margin:10px 0;
+    height:30px;
+    border:none;
+    border-bottom: 1px solid lightgray;
+    background-color:transparent;
+}
+.settingsForm>input:focus{
+    outline:none;
+}
+.settingsSubmit{
+    width:150px;
+    align-self:center;
+    border:none;
+    border-radius:10px;
+    color:white;
+    background-color: black;
+    padding:10px;
+    margin-top: 20px;
+    cursor: pointer;
+    transition: ease 0.3s;
+}
+
+.settingsSubmit:hover{
+    background-color: goldenrod;
+}
+
