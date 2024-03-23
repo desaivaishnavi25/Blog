@@ -1,30 +1,38 @@
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState,useRef } from "react";
 import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
 import { Context } from "../../context/Context";
 import "./singlePost.css";
+import JoditEditor from 'jodit-react'
 
 export default function SinglePost() {
   const location = useLocation();
   const path = location.pathname.split("/")[2];
   const [post, setPost] = useState({});
-
+  
   const { user } = useContext(Context);
   const [title, setTitle] = useState("");
+  const editor = useRef(null);
   const [desc, setDesc] = useState("");
+  const [photo,setPhoto] = useState("");
   const [updateMode, setUpdateMode] = useState(false);
+
+  const PF = "http://localhost:5000/images/"
 
   useEffect(() => {
     const getPost = async () => {
       const res = await axios.get("/posts/" + path);
       setPost(res.data);
       setTitle(res.data.title);
-      setDesc(res.data.desc);
+      const description =   <div dangerouslySetInnerHTML={{ __html: res.data.desc }}></div>
+      setDesc(description);
+      if(res.data.photo){
+        setPhoto(res.data.photo);
+      }
     };
     getPost();
   }, [path]);
-
   const handleDelete = async () => {
     try {
       await axios.delete(`/posts/${post._id}`, {
@@ -40,17 +48,37 @@ export default function SinglePost() {
         username: user.username,
         title,
         desc,
+        photo
       });
       setUpdateMode(false)
     } catch (err) {}
+    if(photo){
+      const data = new FormData();
+      const filename = Date.now()+file.name;
+      data.append("name",filename);
+      data.append("file",file);
+      post.photo = filename;
+      try{
+        await axios.post("/upload",data);
+      }catch(err) {}
+    }
   };
-
   return (
     <div className="singlePost">
       <div className="singlePostWrapper">
-        
-          <img src="https://source.unsplash.com/random/900x700/?nature" alt="" className="singlePostImg" />
-        
+        {photo && (
+        <img src={PF + photo} alt="" className="singlePostImg" />
+      )}
+
+        {updateMode ? (
+          <>
+          {photo && <button 
+            className="singlePostButton"
+            onClick={e=>setPhoto(null)}
+          >remove</button>
+}
+        </>
+        ) :null }
         {updateMode ? (
           <input
             type="text"
@@ -88,24 +116,23 @@ export default function SinglePost() {
           </span>
         </div>
         {updateMode ? (
-          <textarea
-            rows="28"
-            className="singlePostDescInput"
-            value={desc}
-            onChange={(e) => setDesc(e.target.value)}
-          />
+          // <textarea
+          //   rows="28"
+          //   className="singlePostDescInput"
+          //   value={desc}
+          //   onChange={(e) => setDesc(e.target.value)}
+          // />
+          <JoditEditor ref={editor} onChange={newDesc=>setDesc(newDesc)}/>
         ) : (
           <p className="singlePostDesc">{desc}</p>
         )}
+        
         {updateMode && (
           <button className="singlePostButton" onClick={handleUpdate}>
             Update
           </button>
         )}
       </div>
-      <div class="context">
-        
-    </div>
     </div>
   );
 }

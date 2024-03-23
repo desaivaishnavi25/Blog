@@ -5,14 +5,13 @@ import { Context } from "../../context/Context";
 import axios from "axios";
 
 export default function Settings() {
+  const PF = "http://localhost:5000/images/"
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [success, setSuccess] = useState(false);
-
+  const [file, setFile] = useState(null);
   const { user, dispatch } = useContext(Context);
-  
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,6 +22,17 @@ export default function Settings() {
       email,
       password,
     };
+    if(file){
+      const data = new FormData();
+      const filename = Date.now()+file.name;
+      data.append("name",filename);
+      data.append("file",file);
+      updatedUser.profilePic = filename;
+      try{
+        await axios.post("/upload",data);
+      }catch(err) {}
+    }
+    
     try {
       const res = await axios.put("/users/" + user._id, updatedUser);
       setSuccess(true);
@@ -31,19 +41,41 @@ export default function Settings() {
       dispatch({ type: "UPDATE_FAILURE" });
     }
   };
+  const handleLogout = () =>{
+    dispatch({type:"LOGOUT"});
+  }
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`/users/${user._id}`, {
+        data: { username: user.username },
+      });
+      handleLogout();
+    } catch (err) {}
+  };
   return (
     <div className="settings">
       <div className="settingsWrapper">
         <div className="settingsTitle">
           <span className="settingsUpdateTitle">Update Your Account</span>
+          <i className="singlePostIcon far fa-trash-alt"
+                  onClick={handleDelete}
+                ></i>
         </div>
         <form className="settingsForm" onSubmit={handleSubmit}>
           <label>Profile Picture</label>
           <div className="settingsPP">
             <img
-              src="https://source.unsplash.com/random/900x700/?people"
+              src={file ? URL.createObjectURL(file):user.profilePic}
               alt=""
             />
+            {file &&
+          <label>
+            <i className="writeIcon" onClick={e=>setFile(null)}>&#10005;</i>
+          </label>}
+            <label htmlFor="fileInput">
+              <i className="settingsPPIcon far fa-user-circle"></i>
+            </label>
+            <input type="file" id="fileInput" style={{displa:"none"}} onChange={(e)=>setFile(e.target.files[0])}/>
           </div>
           <label>Username</label>
           <input
@@ -74,7 +106,6 @@ export default function Settings() {
           )}
         </form>
       </div>
-      <Sidebar />
     </div>
   );
 }

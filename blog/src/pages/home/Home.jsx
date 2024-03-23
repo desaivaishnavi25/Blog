@@ -5,6 +5,7 @@ import Posts from '../../components/posts/Posts';
 import './home.css';
 import axios from "axios";
 import { useLocation } from 'react-router-dom';
+import { Newsletter } from '../../components/newsletter/Newsletter';
 
 
 export default function Home() {
@@ -28,7 +29,7 @@ export default function Home() {
         <Posts posts={posts}/>
     <Sidebar/>
     </div>
-    
+    <Newsletter/>
     </>
 
   )

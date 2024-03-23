@@ -8,8 +8,9 @@
     padding: 20px;
     margin-top:20px;
     margin-left:20px;
+    margin-right:20px;
     border:1px solid gray;
-    background-image: linear-gradient(gray, white);
+    background-image: linear-gradient(rgb(247, 241, 246), white);
     background-repeat: no-repeat;
     background-size: cover;
     
@@ -67,7 +68,7 @@
     border:none;
     border-radius:10px;
     color:white;
-    background-color: black;
+    background-color: goldenrod;
     padding:10px;
     margin-top: 20px;
     cursor: pointer;
@@ -75,6 +76,6 @@
 }
 
 .settingsSubmit:hover{
-    background-color: goldenrod;
+    background-color: rgb(214, 158, 16);
 }
 

@@ -31,9 +31,9 @@ export default function Login() {
       <span className="loginTitle">Login</span>
        <form className="loginForm" onSubmit={handleSubmit}>
         <label style={{"fontWeight":"bold"}}>Username</label>
-        <input type="text" className='loginInput' ref={userRef}/>
+        <input type="text" className='loginInput' ref={userRef} placeholder="Enter your username..."/>
         <label style={{"fontWeight":"bold"}}>Password</label>
-        <input type="password" className='loginInput'  ref={passwordRef}/>
+        <input type="password" className='loginInput'  ref={passwordRef} placeholder="Enter your password..."/>
         <button className="loginButton" type="submit" disabled={isFetching}>
             Login
         </button>

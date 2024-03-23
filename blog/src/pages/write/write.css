@@ -1,39 +1,66 @@
 .write{
     padding-top:50px;
-    background-image: url("https://images.unsplash.com/photo-1604368561645-59192f721c9b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTR8fGJsYWNrJTIwbW91bnRhaW58ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60");
+    background-image: url("../../assets/pink-324175_1280.jpg");
     background-repeat: no-repeat;
     background-size: cover;
+    height: 100vh;
 
+}
+.heading{
+    text-align: center;
+    margin-bottom: 20px;
+    font-style: italic;
+    color:rgb(62, 62, 62)
 }
 .writeForm{
     position: relative;
-    color:white;
+    color:black
 }
 .writeFormGroup{
-    margin-left: 150px;
+    margin-left: 180px;
     display: flex;
     align-items: center;
-    color:white;
+    color:black
+}
+
+.writeImg{
+    width: 70%;
+    height: 300px;
+    border-radius:5px;
+    object-fit:cover;
+    margin-left: 250px;
+    margin-bottom: 10px;
+}
+
+.writeIcon{
+    margin-right: 10px;
 }
 
 .writeInput{
     font-size:30px;
     border:none;
     padding: 20px;
+    margin-bottom: 20px;
     width:70vw;
-    background-color: transparent;
+    height: 25px;
+    border-radius: 20px;
+    background-color: rgba(247, 238, 238, 0.822);
     backdrop-filter: blur(10px);
+    
 }
 .writeInput:focus{
     outline:none;
-    color:white
+    color:black
 }
 
 .writeText{
     font-size:20px;
-    height:100vh;
-    color:white;
+    height:35vh;
+    color:black;
+    width:75vw;
+    margin-left: 180px;
 }
+
 .writeSubmit{
     position: absolute;
     top:20px;
