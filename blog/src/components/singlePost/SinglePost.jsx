@@ -10,13 +10,13 @@ export default function SinglePost() {
   const location = useLocation();
   const path = location.pathname.split("/")[2];
   const [post, setPost] = useState({});
-  
   const { user } = useContext(Context);
   const [title, setTitle] = useState("");
   const editor = useRef(null);
   const [desc, setDesc] = useState("");
   const [photo,setPhoto] = useState("");
   const [updateMode, setUpdateMode] = useState(false);
+  const [file, setFile] = useState(null); 
 
   const PF = "http://localhost:5000/images/"
 
@@ -44,24 +44,27 @@ export default function SinglePost() {
 
   const handleUpdate = async () => {
     try {
+      let updatedPhoto = photo; 
+      if (file) {
+        const data = new FormData();
+        const filename = Date.now() + file.name;
+        data.append("name", filename);
+        data.append("file", file);
+        await axios.post("/upload", data); 
+        updatedPhoto = filename; 
+      }
+  
       await axios.put(`/posts/${post._id}`, {
         username: user.username,
         title,
         desc,
-        photo
+        photo: updatedPhoto, 
       });
-      setUpdateMode(false)
-    } catch (err) {}
-    if(photo){
-      const data = new FormData();
-      const filename = Date.now()+file.name;
-      data.append("name",filename);
-      data.append("file",file);
-      post.photo = filename;
-      try{
-        await axios.post("/upload",data);
-      }catch(err) {}
+      setUpdateMode(false);
+    } catch (err) {
+      console.error("Error updating post:", err);
     }
+   
   };
   return (
     <div className="singlePost">
@@ -72,13 +75,15 @@ export default function SinglePost() {
 
         {updateMode ? (
           <>
-          {photo && <button 
-            className="singlePostButton"
-            onClick={e=>setPhoto(null)}
-          >remove</button>
-}
-        </>
-        ) :null }
+          {photo && <><button
+              className="singlePostButton"
+              onClick={e => setPhoto(null)}
+            >remove</button>
+        </>}<label>
+                <i className="writeIcon fas fa-plus"></i>
+                <input type="file" id="fileInput" style={{ display: "none" }} onChange={(e) => setFile(e.target.files[0])}/>
+              </label></>
+         ):null }
         {updateMode ? (
           <input
             type="text"

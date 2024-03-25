@@ -49,7 +49,7 @@ export default function Settings() {
       await axios.delete(`/users/${user._id}`, {
         data: { username: user.username },
       });
-      handleLogout();
+      window.location.replace("/register");
     } catch (err) {}
   };
   return (
